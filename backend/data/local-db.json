@@ -1,0 +1,119 @@
+{
+  "users": [
+    {
+      "_id": "e4b33165-7fb1-44e1-bc32-831fac71ae98",
+      "name": "Demo User",
+      "email": "demo@example.com",
+      "password": "$2b$10$9Lqohat7K.pWL/mYXEyCa.nlNNDHlTHIrNyy77ogzGlXG77Ij/G0W",
+      "scores": [
+        {
+          "score": 7,
+          "date": "2026-04-01T00:00:00.000Z"
+        },
+        {
+          "score": 12,
+          "date": "2026-04-02T00:00:00.000Z"
+        },
+        {
+          "score": 18,
+          "date": "2026-04-03T00:00:00.000Z"
+        }
+      ],
+      "selectedCharity": "charity-1",
+      "charityPercentage": 20,
+      "drawStats": {
+        "totalParticipations": 3,
+        "lastDrawNumbers": [
+          3,
+          8,
+          16,
+          18,
+          45
+        ],
+        "lastMatchedNumbers": [
+          18
+        ],
+        "lastMatchCount": 1,
+        "lastResult": "No prize",
+        "lastWinnings": 0,
+        "totalWinnings": 0
+      },
+      "createdAt": "2026-04-01T01:20:42.831Z",
+      "updatedAt": "2026-04-01T03:03:38.863Z"
+    },
+    {
+      "_id": "82aede74-7a2b-4380-b2b1-c64eefcaf185",
+      "name": "ram",
+      "email": "ram@gmail.com",
+      "password": "$2b$10$wYlI8FyP/H1.HNNJANTGS.pHCel1Q9fKILuJ2BrYxp8xm2nLpYIQy",
+      "scores": [],
+      "selectedCharity": "charity-2",
+      "charityPercentage": 100,
+      "drawStats": {
+        "totalParticipations": 0,
+        "lastDrawNumbers": [
+          3,
+          8,
+          16,
+          18,
+          45
+        ],
+        "lastMatchedNumbers": [],
+        "lastMatchCount": 0,
+        "lastResult": "No prize",
+        "lastWinnings": 0,
+        "totalWinnings": 0
+      },
+      "createdAt": "2026-04-01T02:04:36.703Z",
+      "updatedAt": "2026-04-01T03:03:38.878Z"
+    },
+    {
+      "_id": "aa541887-f1a1-44cd-b05e-086885831f29",
+      "name": "Handoff User",
+      "email": "handoff_1769630087@example.com",
+      "password": "$2b$10$7f9h2mEviBo68XmQfzaokOGXVSLti4d0RnoZ/542Jwe0LL/jVtGLm",
+      "scores": [
+        {
+          "score": 11,
+          "date": "2026-04-01T00:00:00.000Z"
+        }
+      ],
+      "selectedCharity": "charity-1",
+      "charityPercentage": 25,
+      "drawStats": {
+        "totalParticipations": 1,
+        "lastDrawNumbers": [
+          3,
+          8,
+          16,
+          18,
+          45
+        ],
+        "lastMatchedNumbers": [],
+        "lastMatchCount": 0,
+        "lastResult": "No prize",
+        "lastWinnings": 0,
+        "totalWinnings": 0
+      },
+      "createdAt": "2026-04-01T03:03:38.753Z",
+      "updatedAt": "2026-04-01T03:03:38.892Z"
+    }
+  ],
+  "charities": [
+    {
+      "_id": "charity-1",
+      "name": "Golf Care Foundation",
+      "description": "Supports community golf training for young players."
+    },
+    {
+      "_id": "charity-2",
+      "name": "Fairway Hope Fund",
+      "description": "Helps families with education and sports support."
+    },
+    {
+      "_id": "charity-3",
+      "name": "Green Future Trust",
+      "description": "Funds environmental and community wellness programs."
+    }
+  ]
+}

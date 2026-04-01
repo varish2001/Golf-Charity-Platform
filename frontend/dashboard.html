@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | Golf Charity Platform</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="dashboard-page">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Golf Charity Subscription Platform</p>
+        <h1>User Dashboard</h1>
+      </div>
+      <button id="logoutButton" class="button button-secondary" type="button">Logout</button>
+    </header>
+
+    <main class="dashboard-container">
+      <section class="card profile-card">
+        <h2>Profile</h2>
+        <div id="profileContent" class="info-grid"></div>
+      </section>
+
+      <section class="card">
+        <h2>Latest Scores</h2>
+        <form id="scoreForm" class="form compact-form">
+          <label for="scoreInput">Add Score</label>
+          <input id="scoreInput" name="score" type="number" min="1" max="45" placeholder="1 to 45" required />
+
+          <label for="scoreDateInput">Score Date</label>
+          <input id="scoreDateInput" name="date" type="date" required />
+
+          <button type="submit" class="button">Save Score</button>
+        </form>
+        <div id="scoresContent" class="content-block"></div>
+      </section>
+
+      <section class="card">
+        <h2>Selected Charity</h2>
+        <form id="charityForm" class="form compact-form">
+          <label for="charitySelect">Choose Charity</label>
+          <select id="charitySelect" name="charityId" required></select>
+
+          <label for="charityPercentageInput">Charity Percentage</label>
+          <input
+            id="charityPercentageInput"
+            name="charityPercentage"
+            type="number"
+            min="0"
+            max="100"
+            placeholder="0 to 100"
+            required
+          />
+
+          <button type="submit" class="button">Save Charity</button>
+        </form>
+        <div id="charityContent" class="content-block"></div>
+      </section>
+
+      <section class="card">
+        <h2>Draw Result</h2>
+        <button id="runDrawButton" class="button" type="button">Run Draw</button>
+        <div id="drawContent" class="content-block"></div>
+      </section>
+    </main>
+
+    <p id="dashboardMessage" class="floating-message"></p>
+
+    <script src="./js/config.js"></script>
+    <script src="./js/dashboard.js"></script>
+  </body>
+</html>

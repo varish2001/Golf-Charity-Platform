@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register | Golf Charity Platform</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="auth-page">
+    <main class="auth-container">
+      <section class="card auth-card">
+        <p class="eyebrow">Golf Charity Subscription Platform</p>
+        <h1>Create Account</h1>
+        <p class="subtext">Register once, then use your dashboard to add scores and join the draw.</p>
+
+        <form id="registerForm" class="form">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" placeholder="Enter your name" required />
+
+          <label for="email">Email</label>
+          <input id="registerEmail" name="email" type="email" placeholder="Enter your email" required />
+
+          <label for="password">Password</label>
+          <input
+            id="registerPassword"
+            name="password"
+            type="password"
+            placeholder="Create a password"
+            required
+          />
+
+          <button type="submit" class="button">Register</button>
+        </form>
+
+        <p id="message" class="message"></p>
+        <p class="helper-text">
+          Already have an account? <a href="/login.html">Login here</a>
+        </p>
+      </section>
+    </main>
+
+    <script src="./js/config.js"></script>
+    <script src="./js/register.js"></script>
+  </body>
+</html>
