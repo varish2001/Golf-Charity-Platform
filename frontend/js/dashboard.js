@@ -1,5 +1,4 @@
 const token = localStorage.getItem("token");
-const apiBaseUrl = localStorage.getItem("apiBaseUrl") || window.APP_CONFIG?.API_BASE_URL || window.location.origin;
 
 const profileContent = document.getElementById("profileContent");
 const scoresContent = document.getElementById("scoresContent");
@@ -9,23 +8,19 @@ const logoutButton = document.getElementById("logoutButton");
 const scoreForm = document.getElementById("scoreForm");
 const charityForm = document.getElementById("charityForm");
 const runDrawButton = document.getElementById("runDrawButton");
+const scoreButton = document.getElementById("scoreButton");
+const charityButton = document.getElementById("charityButton");
 const charitySelect = document.getElementById("charitySelect");
 const dashboardMessage = document.getElementById("dashboardMessage");
 
 if (!token) {
-  window.location.href = "/login.html";
+  window.location.href = "./login.html";
 }
 
 const showMessage = (message, isError = false) => {
   dashboardMessage.textContent = message;
   dashboardMessage.style.background = isError ? "rgba(180, 35, 24, 0.92)" : "rgba(31, 41, 51, 0.9)";
-};
-
-const authHeaders = () => {
-  return {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "application/json",
-  };
+  dashboardMessage.classList.add("is-visible");
 };
 
 const renderInfoRow = (label, value) => {
@@ -109,36 +104,32 @@ const renderDraw = (drawParticipation, winnings) => {
 };
 
 const loadCharities = async () => {
-  try {
-    const response = await fetch(`${apiBaseUrl}/charities`);
-    const result = await response.json();
+  charitySelect.innerHTML = "<option value=''>Loading charities...</option>";
 
-    if (!response.ok) {
-      charitySelect.innerHTML = "<option value=''>Unable to load charities</option>";
-      return;
-    }
+  try {
+    const result = await window.AppHelpers.apiRequest("/charities", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     charitySelect.innerHTML = result.data.charities
       .map((charity) => `<option value="${charity._id}">${charity.name}</option>`)
       .join("");
   } catch (error) {
     charitySelect.innerHTML = "<option value=''>Unable to load charities</option>";
+    showMessage(error.message || "Unable to load charities", true);
   }
 };
 
 const loadDashboard = async () => {
+  profileContent.innerHTML = '<p class="empty-state">Loading profile...</p>';
+  scoresContent.innerHTML = '<p class="empty-state">Loading scores...</p>';
+  charityContent.innerHTML = '<p class="empty-state">Loading charity...</p>';
+  drawContent.innerHTML = '<p class="empty-state">Loading draw details...</p>';
+
   try {
-    const response = await fetch(`${apiBaseUrl}/dashboard`, {
-      headers: authHeaders(),
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      localStorage.removeItem("token");
-      window.location.href = "/login.html";
-      return;
-    }
+    const result = await window.AppHelpers.apiRequest("/dashboard");
 
     const { profile, latestScores, selectedCharity, drawParticipation, winnings } = result.data;
 
@@ -152,10 +143,17 @@ const loadDashboard = async () => {
     charityContent.innerHTML = renderCharity(selectedCharity);
     drawContent.innerHTML = renderDraw(drawParticipation, winnings);
   } catch (error) {
+    if (error.status === 401) {
+      localStorage.removeItem("token");
+      window.location.href = "./login.html";
+      return;
+    }
+
     profileContent.innerHTML = '<p class="empty-state">Unable to load dashboard data.</p>';
-    scoresContent.innerHTML = "";
-    charityContent.innerHTML = "";
-    drawContent.innerHTML = "";
+    scoresContent.innerHTML = '<p class="empty-state">Please try again later.</p>';
+    charityContent.innerHTML = '<p class="empty-state">Please try again later.</p>';
+    drawContent.innerHTML = '<p class="empty-state">Please try again later.</p>';
+    showMessage(error.message || "Unable to load dashboard data.", true);
   }
 };
 
@@ -169,24 +167,21 @@ scoreForm.addEventListener("submit", async (event) => {
   };
 
   try {
-    const response = await fetch(`${apiBaseUrl}/scores`, {
+    window.AppHelpers.setButtonLoading(scoreButton, true, "Saving score...");
+    showMessage("Saving score...", false);
+
+    await window.AppHelpers.apiRequest("/scores", {
       method: "POST",
-      headers: authHeaders(),
       body: JSON.stringify(payload),
     });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      showMessage(result.message || "Unable to save score", true);
-      return;
-    }
 
     scoreForm.reset();
     showMessage("Score saved successfully");
     await loadDashboard();
   } catch (error) {
-    showMessage("Unable to connect to the server", true);
+    showMessage(error.message || "Unable to connect to the server", true);
+  } finally {
+    window.AppHelpers.setButtonLoading(scoreButton, false, "Saving score...");
   }
 });
 
@@ -200,48 +195,46 @@ charityForm.addEventListener("submit", async (event) => {
   };
 
   try {
-    const response = await fetch(`${apiBaseUrl}/charities/select-charity`, {
+    window.AppHelpers.setButtonLoading(charityButton, true, "Saving charity...");
+    showMessage("Saving charity...", false);
+
+    await window.AppHelpers.apiRequest("/charities/select-charity", {
       method: "POST",
-      headers: authHeaders(),
       body: JSON.stringify(payload),
     });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      showMessage(result.message || "Unable to save charity", true);
-      return;
-    }
 
     showMessage("Charity updated successfully");
     await loadDashboard();
   } catch (error) {
-    showMessage("Unable to connect to the server", true);
+    showMessage(error.message || "Unable to connect to the server", true);
+  } finally {
+    window.AppHelpers.setButtonLoading(charityButton, false, "Saving charity...");
   }
 });
 
 runDrawButton.addEventListener("click", async () => {
   try {
-    const response = await fetch(`${apiBaseUrl}/draw`);
-    const result = await response.json();
-
-    if (!response.ok) {
-      showMessage(result.message || "Unable to run draw", true);
-      return;
-    }
+    window.AppHelpers.setButtonLoading(runDrawButton, true, "Running draw...");
+    showMessage("Running draw...", false);
+    const result = await window.AppHelpers.apiRequest("/draw", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     showMessage(`Draw completed. Numbers: ${result.data.drawNumbers.join(", ")}`);
     await loadDashboard();
   } catch (error) {
-    showMessage("Unable to connect to the server", true);
+    showMessage(error.message || "Unable to connect to the server", true);
+  } finally {
+    window.AppHelpers.setButtonLoading(runDrawButton, false, "Running draw...");
   }
 });
 
 logoutButton.addEventListener("click", () => {
   localStorage.removeItem("token");
   localStorage.removeItem("userName");
-  localStorage.removeItem("apiBaseUrl");
-  window.location.href = "/login.html";
+  window.location.href = "./login.html";
 });
 
 loadCharities();

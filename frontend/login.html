@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login | Golf Charity Platform</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body class="auth-page">
     <main class="auth-container">
@@ -26,12 +26,12 @@
             required
           />
 
-          <button type="submit" class="button">Login</button>
+          <button id="loginButton" type="submit" class="button">Login</button>
         </form>
 
-        <p id="message" class="message"></p>
+        <p id="message" class="message" aria-live="polite"></p>
         <p class="helper-text">
-          New user? <a href="/register.html">Create an account</a>
+          New user? <a href="./register.html">Create an account</a>
         </p>
       </section>
     </main>
